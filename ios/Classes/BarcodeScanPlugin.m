@@ -36,7 +36,7 @@
             controller.scannedText.alpha = 1.0;
             controller.scanRect.overlayColor = [UIColor colorWithRed: 126.0 / 255.0 green: 211.0 / 255.0 blue: 33.0 / 255.0 alpha: 0.5];
             [controller.scanRect setNeedsDisplay];
-        } completion: ^(bool finished) {
+        } completion:^(BOOL finished) {
             if (finished) {
                 [controller.scanner stopScanning];
                 [controller dismissViewControllerAnimated: YES completion: nil];
