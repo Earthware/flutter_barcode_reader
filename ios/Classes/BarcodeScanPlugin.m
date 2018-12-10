@@ -27,8 +27,22 @@
 }
 
 - (void)barcodeScannerViewController:(BarcodeScannerViewController *)controller didScanBarcodeWithResult:(NSString *)result {
+    
     if (self.result) {
-        self.result(result);
+        controller.instructionText.alpha = 0.0;
+        
+        [UIView animateWithDuration: 0.5 animations: ^{
+            controller.tickImage.alpha = 1.0;
+            controller.scannedText.alpha = 1.0;
+            controller.scanRect.overlayColor = [UIColor colorWithRed: 126.0 / 255.0 green: 211.0 / 255.0 blue: 33.0 / 255.0 alpha: 0.5];
+            [controller.scanRect setNeedsDisplay];
+        } completion: ^(bool finished) {
+            if (finished) {
+                [controller.scanner stopScanning];
+                [controller dismissViewControllerAnimated: YES completion: nil];
+                self.result(result);
+            }
+        }];
     }
 }
 

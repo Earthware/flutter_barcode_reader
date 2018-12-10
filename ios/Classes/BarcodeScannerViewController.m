@@ -39,13 +39,33 @@
     int instructionLabelPositionX = (self.view.frame.size.width - 305) / 2;
     int instructionLabelPositionY = scanRectOriginY - 72.6 - 20;
     
-    UILabel *instructionText = [[UILabel alloc]initWithFrame:CGRectMake(instructionLabelPositionX, instructionLabelPositionY, 305, 72.6)];
-    instructionText.numberOfLines = 2;
-    instructionText.text = @"Position the QR code in the square:";
-    instructionText.textColor = UIColor.whiteColor;
-    instructionText.textAlignment = NSTextAlignmentCenter;
-    instructionText.font = [UIFont fontWithName: @"Raleway-Bold" size: 29.7];
-    [self.view addSubview: instructionText];
+    self.instructionText = [[UILabel alloc]initWithFrame:CGRectMake(instructionLabelPositionX, instructionLabelPositionY, 305, 72.6)];
+    self.instructionText.numberOfLines = 2;
+    self.instructionText.text = @"Position the QR code in the square:";
+    self.instructionText.textColor = UIColor.whiteColor;
+    self.instructionText.textAlignment = NSTextAlignmentCenter;
+    self.instructionText.font = [UIFont fontWithName: @"Raleway-Bold" size: 29.7];
+    [self.view addSubview: self.instructionText];
+    
+    int scannedLabelPositionX = (self.view.frame.size.width - 165) / 2;
+    int scannedLabelPositionY = (self.view.frame.size.height - 72.6 - 66.0);
+    
+    self.scannedText = [[UILabel alloc]initWithFrame:CGRectMake(scannedLabelPositionX, scannedLabelPositionY, 165, 36.0)];
+    self.scannedText.numberOfLines = 2;
+    self.scannedText.text = @"SCANNED";
+    self.scannedText.textColor = UIColor.whiteColor;
+    self.scannedText.textAlignment = NSTextAlignmentCenter;
+    self.scannedText.font = [UIFont fontWithName: @"Raleway-Bold" size: 29.7];
+    self.scannedText.alpha = 0.0;
+    [self.view addSubview: self.scannedText];
+    
+    int tickImagePositionX = (self.view.frame.size.width - 133) / 2;
+    int tickImagePositionY = scanRectOriginY - 72.6 - 40;
+    
+    self.tickImage = [[UIImageView alloc]initWithFrame:CGRectMake(tickImagePositionX, tickImagePositionY, 133, 97)];
+    self.tickImage.image = [UIImage imageNamed:@"scannedTick"];
+    self.tickImage.alpha = 0.0;
+    [self.view addSubview: self.tickImage];
     
     
   [self.view addConstraints:[NSLayoutConstraint
@@ -88,12 +108,14 @@
 
 - (void)startScan {
     NSError *error;
+    __block bool found = false;
+    
     [self.scanner startScanningWithResultBlock:^(NSArray<AVMetadataMachineReadableCodeObject *> *codes) {
-        [self.scanner stopScanning];
+        
          AVMetadataMachineReadableCodeObject *code = codes.firstObject;
-        if (code) {
+        if (code && !found) {
+            found = true;
             [self.delegate barcodeScannerViewController:self didScanBarcodeWithResult:code.stringValue];
-            [self dismissViewControllerAnimated:NO completion:nil];
         }
     } error:&error];
 }

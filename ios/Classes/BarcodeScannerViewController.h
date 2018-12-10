@@ -11,6 +11,9 @@
 
 @interface BarcodeScannerViewController : UIViewController
 @property(nonatomic, retain) UIView *previewView;
+@property(nonatomic, retain) UILabel *instructionText;
+@property(nonatomic, retain) UILabel *scannedText;
+@property(nonatomic, retain) UIImageView *tickImage;
   @property(nonatomic, retain) ScannerOverlay *scanRect;
 @property(nonatomic, retain) MTBBarcodeScanner *scanner;
 @property(nonatomic, weak) id<BarcodeScannerViewControllerDelegate> delegate;

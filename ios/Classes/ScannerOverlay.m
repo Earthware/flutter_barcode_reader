@@ -9,15 +9,16 @@
   - (instancetype)initWithFrame:(CGRect)frame
   {
     self = [super initWithFrame:frame];
+      
+      self.overlayColor = [UIColor colorWithRed: 67.0 / 255.0 green: 82.0 / 255.0 blue: 90.0 / 255.0 alpha:0.55];
+      
     return self;
   }
 
 - (void)drawRect:(CGRect)rect {
   CGContextRef context = UIGraphicsGetCurrentContext();
   
-  UIColor * overlayColor = [UIColor colorWithRed: 67.0 / 255.0 green: 82.0 / 255.0 blue: 90.0 / 255.0 alpha:0.55];
-  
-  CGContextSetFillColorWithColor(context, overlayColor.CGColor);
+  CGContextSetFillColorWithColor(context, self.overlayColor.CGColor);
   CGContextFillRect(context, self.bounds);
   
   // make a hole for the scanner
