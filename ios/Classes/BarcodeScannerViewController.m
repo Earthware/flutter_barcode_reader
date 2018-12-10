@@ -30,6 +30,24 @@
   self.scanRect.translatesAutoresizingMaskIntoConstraints = NO;
   self.scanRect.backgroundColor = UIColor.clearColor;
   [self.view addSubview:_scanRect];
+    
+    CGFloat heightMultiplier = 1.0 / 1.0; // 1:1 aspect ratio
+    CGFloat scanRectWidth = self.view.frame.size.width - (60 * 2);
+    CGFloat scanRectHeight = scanRectWidth * heightMultiplier;
+    CGFloat scanRectOriginY = (self.view.frame.size.height / 2) - (scanRectHeight / 2);
+    
+    int instructionLabelPositionX = (self.view.frame.size.width - 305) / 2;
+    int instructionLabelPositionY = scanRectOriginY - 72.6 - 20;
+    
+    UILabel *instructionText = [[UILabel alloc]initWithFrame:CGRectMake(instructionLabelPositionX, instructionLabelPositionY, 305, 72.6)];
+    instructionText.numberOfLines = 2;
+    instructionText.text = @"Position the QR code in the square:";
+    instructionText.textColor = UIColor.whiteColor;
+    instructionText.textAlignment = NSTextAlignmentCenter;
+    instructionText.font = [UIFont fontWithName: @"Raleway-Bold" size: 29.7];
+    [self.view addSubview: instructionText];
+    
+    
   [self.view addConstraints:[NSLayoutConstraint
                              constraintsWithVisualFormat:@"V:[scanRect]"
                              options:NSLayoutFormatAlignAllBottom
@@ -40,7 +58,6 @@
                              options:NSLayoutFormatAlignAllBottom
                              metrics:nil
                              views:@{@"scanRect": _scanRect}]];
-  [_scanRect startAnimating];
     self.scanner = [[MTBBarcodeScanner alloc] initWithPreviewView:_previewView];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
   [self updateFlashButton];
